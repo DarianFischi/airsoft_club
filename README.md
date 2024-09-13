@@ -33,29 +33,29 @@ Go to the directory where you want to keep this repository
 
 Basic uses of Git that I have only recently learned...
 
-$ git remote -v
-# Verify new remote
-> origin  https://github.com/OWNER/REPOSITORY.git (fetch)
-> origin  https://github.com/OWNER/REPOSITORY.git (push)
+    $ git remote -v
+    # Verify new remote
+    > origin  https://github.com/OWNER/REPOSITORY.git (fetch)
+    > origin  https://github.com/OWNER/REPOSITORY.git (push)
 
 Make sure your .git/config file in the root folder has url = git@github.com:dollarbar/airsoft_club
 note: I had trouble with sources that told me to put git.github rather than git@gihub. 
       Make sure it's a colon after github.com and not a slash
 
-$ git remote show origin
-* remote origin
-  Fetch URL: git@github.com:dollarbar/airsoft_club
-  Push  URL: git@github.com:dollarbar/airsoft_club
-  HEAD branch: main
-  Remote branch:
-    main tracked
-  Local branch configured for 'git pull':
-    main merges with remote main
-  Local ref configured for 'git push':
-    main pushes to main (up to date)
-
-  $ git status      /* should be on main branch */
-  $ git log         /* shows commits */
+    $ git remote show origin
+    * remote origin
+      Fetch URL: git@github.com:dollarbar/airsoft_club
+      Push  URL: git@github.com:dollarbar/airsoft_club
+      HEAD branch: main
+      Remote branch:
+        main tracked
+      Local branch configured for 'git pull':
+        main merges with remote main
+      Local ref configured for 'git push':
+        main pushes to main (up to date)
+    
+      $ git status      /* should be on main branch */
+      $ git log         /* shows commits */
 
 -------------------------------
 Before coding, I am using venv as a virtual environment great with Python
