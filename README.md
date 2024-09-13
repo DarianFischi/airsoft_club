@@ -84,13 +84,21 @@ Now install Django.
 --------------------------------
 To begin coding, go to root directory of the project. Command $ git status to make sure your contributions are version controlled and...
 
-$ git pull        /* fetches and merges the remote repository. May not be necessary right after cloning */
-$ git add .       /* adds all edits to be commited */
-$ git commit -m "your message"        /* commits */
-$ git push        /* pushes to remote location */
+    $ git pull        /* fetches and merges the remote repository. May not be necessary right after cloning */
+    $ git add .       /* adds all edits to be commited */
+    $ git commit -m "your message"        /* commits */
+    $ git push        /* pushes to remote location */
 
 
 Feel free to update this with commentary, sources, dependencies, and directions for collaboration and 
+
+--------------------------------------------
+
+To make sure the project is running, 
+
+    python manage.py runserver    /* This is a Django executable */
+
+Open http://127.0.0.1:8000 in your browser. You should see some Django page.
 
 
 
