@@ -38,9 +38,6 @@ Basic uses of Git that I have only recently learned...
     > origin  https://github.com/OWNER/REPOSITORY.git (fetch)
     > origin  https://github.com/OWNER/REPOSITORY.git (push)
 
-Make sure your .git/config file in the root folder has url = git@github.com:dollarbar/airsoft_club
-note: I had trouble with sources that told me to put git.github rather than git@gihub. 
-      Make sure it's a colon after github.com and not a slash
 
     $ git remote show origin
     * remote origin
@@ -56,6 +53,10 @@ note: I had trouble with sources that told me to put git.github rather than git@
     
       $ git status      /* should be on main branch */
       $ git log         /* shows commits */
+
+Make sure your .git/config file in the root folder has url = git@github.com:dollarbar/airsoft_club
+note: I had trouble with sources that told me to put git.github rather than git@gihub. 
+Make sure it's a colon after github.com and not a slash
 
 -------------------------------
 Before coding, I am using venv as a virtual environment great with Python
