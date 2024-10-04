@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+
 urlpatterns = [
+    path("airsoft/", include("airsoft.urls")),
     path('admin/', admin.site.urls),
+    # Consider a re_path here
 ]
