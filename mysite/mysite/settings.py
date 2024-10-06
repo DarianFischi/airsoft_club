@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-t!stx+6y*xt&hdhsbx=_+e29qukp_@qg8xh%yfeuv9l^ei+9=j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ '*' ]
+ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'authz.apps.AuthzConfig',
     'airsoft.apps.AirsoftConfig',
     'django.contrib.admin',
     'django.contrib.auth',

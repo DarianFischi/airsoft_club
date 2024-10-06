@@ -20,5 +20,10 @@ from django.urls import include, path
 urlpatterns = [
     path("airsoft/", include("airsoft.urls")),
     path('admin/', admin.site.urls),
+    path('authz/', include("authz.urls")),
+    # for reverse lookup using login and logout
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('django.contrib.auth.urls'))
+    
     # Consider a re_path here
 ]

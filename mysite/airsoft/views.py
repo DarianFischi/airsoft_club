@@ -10,5 +10,5 @@ from django.http import HttpResponse, HttpResponseRedirect
 def login_page(request):
     return HttpResponse("Please, login, sir")
 """
-def login_page(request):
-    return render(request, "airsoft/login.html")
+def main_page(request):
+    return HttpResponse("Well done, you have made it to the main page.")
