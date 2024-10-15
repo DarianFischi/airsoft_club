@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import is_valid_path
 from urllib.parse import urlparse
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 def login_view(request):
@@ -19,8 +21,8 @@ def login_view(request):
             next_url = request.POST.get('next', next_url)
             parsed_url = urlparse(next_url)
             if not parsed_url.netloc and is_valid_path(next_url):
-                return HttpResponseRedirect(next_url)
-            return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/airsoft/')
+            return HttpResponseRedirect('/login/')
     else:
         form = AuthenticationForm()
 
@@ -29,6 +31,33 @@ def login_view(request):
 
 def home(request):
     return render(request, 'authz/home.html')
+
+def register_view(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = User.objects.filter(username=username)
+
+        if user.exists():
+            messages.info(request, "Username already taken!")
+            return redirect('/register/')
+
+        user = User.objects.create_user(
+            first_name = first_name,
+            last_name = last_name,
+            username = username
+        )
+
+        user.set_password(password)
+        user.save()
+
+        messages.info(request, "Account created Successfully!")
+        return redirect('/register/')
+
+    return render(request, 'authz/register.html')
 
 
 @login_required
