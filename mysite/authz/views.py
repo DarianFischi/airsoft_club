@@ -1,47 +1,43 @@
 from django.shortcuts import render, redirect
-from django.views import View
-
-from django.urls import reverse
-from django.utils.http import urlencode
-
-class OpenView(View):
-    def get(self, request):
-        return render(request, 'authz/main.html')
-
-class ApereoView(View):
-    def get(self, request):
-        return render(request, 'authz/main.html')
-
-class ManualProtect(View):
-    def get(self, request):
-        if not request.user.is_authenticated :
-            loginurl = reverse('login')+'?'+urlencode({'next': request.path})
-            return redirect(loginurl)
-        return render(request, 'authz/main.html')
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import is_valid_path
+from urllib.parse import urlparse
 
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+def login_view(request):
+    next_url = request.GET.get('next', '/')
 
-class ProtectView(LoginRequiredMixin, View):
-    def get(self, request):
-        return render(request, 'authz/main.html')
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            # Ensure next_url is safe or default to home page
+            next_url = request.POST.get('next', next_url)
+            parsed_url = urlparse(next_url)
+            if not parsed_url.netloc and is_valid_path(next_url):
+                return HttpResponseRedirect(next_url)
+            return HttpResponseRedirect('/')
+    else:
+        form = AuthenticationForm()
 
-from django.http import HttpResponse
+    return render(request, 'authz/login.html', {'form': form, 'next': next_url})
 
-class DumpPython(View):
-    def get(self, req):
-        resp = "<pre>\nUser Data in Python:\n\n"
-        resp += "Login url: " + reverse('login') + "\n"
-        resp += "Logout url: " + reverse('logout') + "\n\n"
-        if req.user.is_authenticated:
-            resp += "User: " + req.user.username + "\n"
-            resp += "Email: " + req.user.email + "\n"
-        else:
-            resp += "User is not logged in\n"
 
-        resp += "\n"
-        resp += "</pre>\n"
-        resp += """<a href="/authz">Go back</a>"""
-        return HttpResponse(resp)
+def home(request):
+    return render(request, 'authz/home.html')
+
+
+@login_required
+def secure_view(request):
+    return render(request, 'authz/secure.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
 
 

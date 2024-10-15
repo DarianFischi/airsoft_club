@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'authz.apps.AuthzConfig',
+    'authz',
     'airsoft.apps.AirsoftConfig',
     'django.contrib.admin',
     'django.contrib.auth',
