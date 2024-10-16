@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'css/login.css' %}">
         <title>Login-</title>
     </head>
     <body>
+	<video autoplay muted loop id="airsoft_login">
+		<source src="{{ video.airsoft_login.mp4 }}" type="video/mp4">hablahabla
+	</video>
+
         <h1>Login</h1>
         <form method="post">
    			{% csrf_token %}

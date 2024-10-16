@@ -1,0 +1,16 @@
+/* Style the video: 100% width and height to cover teh entire window */
+#airsoft_login {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
+}
+
+h1 {
+	right: 50%;
+	font-family: Arial;
+	font-size: 17px;
+}
+
+/* YAAAAAARHHHHHHHHHH */
