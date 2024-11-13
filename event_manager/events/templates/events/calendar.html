@@ -1,0 +1,45 @@
+<!-- templates/events/calendar.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar</title>
+    
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
+    
+    <!-- jQuery and FullCalendar JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+</head>
+<body>
+
+<h1>Event Calendar</h1>
+
+<!-- FullCalendar div -->
+<div id="calendar"></div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            // Set the events data URL
+            events: '/calendar/events/',  // The URL to fetch events data
+            eventRender: function(event, element) {
+                element.attr('title', event.title);  // Customize the tooltip on hover
+            },
+            // Additional FullCalendar options can go here
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: true,  // Allow event editing, you can customize as needed
+            droppable: true  // Allow events to be dragged and dropped
+        });
+    });
+</script>
+
+</body>
+</html>
