@@ -1,23 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
-	{% load static %}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="{% static 'css/login.css' %}">
         <title>Login-</title>
     </head>
     <body>
-	<video autoplay muted loop id="airsoft_login">
-		<source src="{{ video.airsoft_login.mp4 }}" type="video/mp4">hablahabla
-	</video>
-
-        <h1>Login</h1>
-        <form method="post">
-   			{% csrf_token %}
-        	{{ form.as_p }}
-            <input name="next" type="hidden" value="{{ next }}"/>
-            <button type="submit">Login</button>
-	    <button type="button"><a style="text-decoration:none" href="/register/">Register</a></button>
-        </form>
 	
+	<video playsinline autoplay muted loop poster id="bgvid">
+            <source src="{% static 'media/airsoft_login_sound.mp4'%}" type="video/mp4">Your browser doesn't support this epic video
+	</video>
+	
+	<div class="content">
+            <h1>Login</h1>
+            <form method="post">
+   	            {% csrf_token %}
+                    {{ form.as_p }}
+                <input name="next" type="hidden" value="{{ next }}"/>
+                <button type="submit">Login</button>
+		<button type="button"><a style="text-decoration:none" href="/register/">Register</a></button>
+            </form>
+        </div>
     </body>
 </html>

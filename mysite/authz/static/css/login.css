@@ -1,16 +1,30 @@
-/* Style the video: 100% width and height to cover teh entire window */
-#airsoft_login {
-	position: fixed;
-	right: 0;
-	bottom: 0;
-	min-width: 100%;
-	min-height: 100%;
+/* Style the video: 100% width and height to cover */
+
+
+video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    object-fit: cover;
 }
 
-h1 {
-	right: 50%;
-	font-family: Arial;
-	font-size: 17px;
-}
 
+.content {
+	/* Centered */
+        position: absolute;
+        font-family: arial;
+	top: 45%;
+	left: 50%;
+	transform: translate(-50%, -50%)
+
+	/* add filling */
+	/* border: 2px solid black; */
+	/* border-radius: 3px; */
+        /*background: linear-gradient(to left, #669999 0%, #666699 100%);
+	opacity: 0.2;*/
+}
 /* YAAAAAARHHHHHHHHHH */
+

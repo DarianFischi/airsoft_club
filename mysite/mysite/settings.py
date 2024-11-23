@@ -117,17 +117,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'authz/static/'
 # added from other site
 # as long as debug is set to true you dont need to run collectstatic command with this:
 #STATIC_ROOT = BASE_DIR / 'staticfiles'
-#STATICFILES_DIRS = [BASE_DIR / 'static',
-#                    BASE_DIR / AUTHZ / 'static',]
-#STORAGES = {
-#    "staticfiles": {
-#        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-#    },
-#}
+STATICFILES_DIRS = [BASE_DIR / "static",
+                    BASE_DIR / "authz/static",]
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
