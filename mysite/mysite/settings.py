@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'authz.apps.AuthzConfig',
+    'authz',
     'airsoft.apps.AirsoftConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -117,9 +117,23 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-
+STATIC_URL = 'authz/static/'
+# added from other site
+# as long as debug is set to true you dont need to run collectstatic command with this:
+#STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / "static",
+                    BASE_DIR / "authz/static",]
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Video files
+MEDIA_URL = '/media/' # URS for accessing media files
+MEDIA_ROOT = BASE_DIR / 'media'  #Absolute path to the media
+

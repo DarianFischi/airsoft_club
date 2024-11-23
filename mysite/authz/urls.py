@@ -1,14 +1,13 @@
 from django.urls import path
-from django.views.generic.base import TemplateView
+from .views import home, login_view, secure_view, logout_view, register_view
+from django.conf import settings
+from django.conf.urls.static import static
 
-from . import views
 
-app_name='authz'
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='authz/main.html')),
-    path('open', views.OpenView.as_view(), name='open'),
-    path('apereo', views.ApereoView.as_view(), name='apereo'),
-    path('manual', views.ManualProtect.as_view(), name='manual'),
-    path('protect', views.ProtectView.as_view(), name='protect'),
-    path('python', views.DumpPython.as_view(), name='python')
+    path('', home, name='home'),
+    path('login/', login_view, name='login'),
+    path('register/', register_view, name='register'),
+    path('secure/', secure_view, name='secure_view'),
+    path('logout/', logout_view, name='logout'),
 ]

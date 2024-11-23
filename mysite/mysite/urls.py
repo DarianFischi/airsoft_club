@@ -17,13 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+# media
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path("airsoft/", include("airsoft.urls")),
     path('admin/', admin.site.urls),
-    path('authz/', include("authz.urls")),
+    path('', include("authz.urls")),
     # for reverse lookup using login and logout
     # path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('django.contrib.auth.urls'))
+    # path('', include('django.contrib.auth.urls'))
     
     # Consider a re_path here
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
