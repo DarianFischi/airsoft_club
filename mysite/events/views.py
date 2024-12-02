@@ -24,7 +24,7 @@ def create_event(request):
     return render(request, 'events/create_event.html', {'form': form})
   
 # Event Edit  
-# @login_required
+@login_required
 def edit_event(request, event_id):
     # Fetch the event to edit
     event = get_object_or_404(Event, id=event_id)
@@ -56,6 +56,7 @@ def calendar_view(request):
     # This will render the main calendar page
     return render(request, 'events/calendar.html')
 
+# @login_required
 def get_events(request):
     # Get all events from the database
     events = Event.objects.all()
@@ -67,10 +68,11 @@ def get_events(request):
 
         # For simplicity, set the end time to be 1 hour after the start time (if no end time is provided)
         # You can adjust this duration based on your requirements
-        end_datetime = start_datetime + timedelta(hours=1)
+        end_datetime = start_datetime + timedelta(hours=6)
 
         events_data.append({
             'id': event.id,
+            'description': event.description or "No description available.",
             'title': event.title,
             'start': start_datetime.isoformat(),  # Ensure start is in ISO 8601 format
             'end': end_datetime.isoformat(),      # Ensure end is in ISO 8601 format

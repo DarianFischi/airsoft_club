@@ -1,52 +1,111 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Calendar</title>
-    
+    <link rel="stylesheet" href="{% static 'calendar.css' %}">
     <!-- FullCalendar CSS -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
-    
+
     <!-- jQuery and FullCalendar JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+
+    <!-- Modal CSS -->
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Event Calendar</h1>
-
+<h1 style="text-align: center">Airsoft Calendar</h1>
+<button onclick="window.history.back();">Back to Events</button>
+<div style="padding-bottom: 10px"></div>
 <!-- FullCalendar div -->
 <div id="calendar"></div>
 
+<!-- Modal for event details -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="eventTitle"></h2>
+        <p id="eventDescription"></p>
+        <p><strong>Start:</strong> <span id="eventStart"></span></p>
+        <p><strong>End:</strong> <span id="eventEnd"></span></p>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
+        // Modal setup
+        var modal = document.getElementById("eventModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Close the modal when the user clicks on <span> (x)
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close the modal if the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
         $('#calendar').fullCalendar({
             events: function(start, end, timezone, callback) {
                 $.ajax({
                     url: '/calendar/events/',  // Your Django URL for events data
                     dataType: 'json',
                     success: function(data) {
-                        // Log the data to ensure it is correct
                         console.log('Fetched Events:', data);
 
-                        // Transform events to ensure 'end' exists, and set it to 'start' if not present
                         var events = data.map(function(event) {
-                            // Ensure 'end' is the same as 'start' if not provided
                             if (!event.end) {
                                 event.end = event.start;
                             }
 
-                            // Ensure event start and end are in ISO format (FullCalendar expects this)
                             event.start = moment(event.start).toISOString();
                             event.end = moment(event.end).toISOString();
 
-                            // Return the processed event
                             return event;
                         });
 
-                        // Pass the processed events to FullCalendar
                         callback(events);
                     },
                     error: function(xhr, status, error) {
@@ -54,9 +113,23 @@
                     }
                 });
             },
+            eventClick: function(event) {
+                // Populate the modal with event data
+                $('#eventTitle').text(event.title);
+                $('#eventDescription').text(event.description) || "No description available.";
+                $('#eventStart').text(moment(event.start).format('MMMM Do YYYY, h:mm:ss a'));
+                $('#eventEnd').text(moment(event.end).format('MMMM Do YYYY, h:mm:ss a'));
+
+                // Display the modal
+                modal.style.display = "block";
+            },
             eventRender: function(event, element) {
                 element.attr('title', event.title);  // Tooltip customization
             },
+	    /* eventClick: function(event) {
+                // Show the event's details in a modal or alert
+                alert('Event: ' + event.title + '\nDescription: ' + event.description);
+            }, */
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -64,11 +137,10 @@
             },
             editable: true,
             droppable: true,
-            timezone: 'local',  // Ensure the timezone matches the event data
-            // Add eventDataTransform to check the structure
+            timezone: 'local',
             eventDataTransform: function(eventData) {
                 if (!eventData.end) {
-                    eventData.end = eventData.start; // Ensure 'end' is defined
+                    eventData.end = eventData.start;
                 }
                 return eventData;
             }
@@ -78,3 +150,4 @@
 
 </body>
 </html>
+
