@@ -102,6 +102,12 @@ To make sure the project is running,
 Open http://127.0.0.1:8000 in your browser. You should see some Django page.
 
 
+----------------------------------------------------------
+
+The project contains a login and a calendar. Create an account and look up upcoming events on the calendar.
+Admins can add and remove calendar events. You can look at the details of an event when clicked on.
+
+
 
   
 
