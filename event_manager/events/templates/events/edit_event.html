@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event: {{ event.title }}</title>
+</head>
+<body>
+    <h2>Edit Event: {{ event.title }}</h2>
+    
+    <!-- Event editing form -->
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Render the form fields as paragraphs -->
+        <button type="submit">Save Changes</button>
+    </form>
+    
+    <!-- Cancel link to go back to the event list -->
+    <a href="{% url 'event_list' %}">Cancel</a> <!-- Redirect to the event list page -->
+</body>
+</html>

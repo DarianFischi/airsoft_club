@@ -14,6 +14,7 @@
             Date: {{ event.date|date:"F j, Y" }}<br>
             Time: {{ event.time|time:"h:i A" }}<br>
             Location: {{ event.location|default:"N/A" }}<br> 
+			<a href="{% url 'edit_event' event.id %}">Edit</a> 
             <a href="{% url 'delete_event' event.id %}">Delete</a>
         </li>
     {% empty %}

@@ -3,7 +3,7 @@ from .models import Event
 from .forms import EventForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # List of events
 def event_list(request):
@@ -22,7 +22,27 @@ def create_event(request):
     else:
         form = EventForm()
     return render(request, 'events/create_event.html', {'form': form})
-
+  
+# Event Edit  
+# @login_required
+def edit_event(request, event_id):
+    # Fetch the event to edit
+    event = get_object_or_404(Event, id=event_id)
+    
+    # Check if the event is being edited by its creator (optional, you can add your own logic here)
+    #if event.created_by != request.user:
+    #    return redirect('event_list')  # Redirect if the user is not the creator of the event
+    
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)  # Bind form with the existing event data
+        if form.is_valid():
+            form.save()  # Save the edited event
+            return redirect('event_list')  # Redirect to the event list page after saving
+    else:
+        form = EventForm(instance=event)  # Pre-fill the form with the event's current data
+    
+    return render(request, 'events/edit_event.html', {'form': form, 'event': event})
+  
 # Event deletion
 def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
@@ -36,24 +56,25 @@ def calendar_view(request):
     # This will render the main calendar page
     return render(request, 'events/calendar.html')
 
-# Fetch events data for the calendar (AJAX)
 def get_events(request):
     # Get all events from the database
     events = Event.objects.all()
 
-    # Prepare the events data for FullCalendar
     events_data = []
     for event in events:
-        # Combine date and time to create the start datetime (using the event's date and time)
+        # Combine the event's date and time to create the start datetime
         start_datetime = datetime.combine(event.date, event.time)
-        end_datetime = start_datetime  # Assuming events have no end time, otherwise add logic for 'end_time'
-        
+
+        # For simplicity, set the end time to be 1 hour after the start time (if no end time is provided)
+        # You can adjust this duration based on your requirements
+        end_datetime = start_datetime + timedelta(hours=1)
+
         events_data.append({
             'id': event.id,
             'title': event.title,
-            'start': start_datetime.isoformat(),  # Format the datetime for FullCalendar
-            'end': end_datetime.isoformat(),      # For simplicity, we use the same time as end time
+            'start': start_datetime.isoformat(),  # Ensure start is in ISO 8601 format
+            'end': end_datetime.isoformat(),      # Ensure end is in ISO 8601 format
         })
-    
-    # Return the events in JSON format to be used by FullCalendar
+
+    # Return the events data in JSON format for FullCalendar
     return JsonResponse(events_data, safe=False)
