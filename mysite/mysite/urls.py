@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from events import views
 # media
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,6 +30,8 @@ urlpatterns = [
     # path('', include('django.contrib.auth.urls'))
     
     # Consider a re_path here
+    path('events/', include('events.urls')), 
+    path('calendar/events/', views.get_events, name='get_events'),
 ]
 
 if settings.DEBUG:

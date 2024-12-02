@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar</title>
+    
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
+    
+    <!-- jQuery and FullCalendar JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+</head>
+<body>
+
+<h1>Event Calendar</h1>
+
+<!-- FullCalendar div -->
+<div id="calendar"></div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            events: function(start, end, timezone, callback) {
+                $.ajax({
+                    url: '/calendar/events/',  // Your Django URL for events data
+                    dataType: 'json',
+                    success: function(data) {
+                        // Log the data to ensure it is correct
+                        console.log('Fetched Events:', data);
+
+                        // Transform events to ensure 'end' exists, and set it to 'start' if not present
+                        var events = data.map(function(event) {
+                            // Ensure 'end' is the same as 'start' if not provided
+                            if (!event.end) {
+                                event.end = event.start;
+                            }
+
+                            // Ensure event start and end are in ISO format (FullCalendar expects this)
+                            event.start = moment(event.start).toISOString();
+                            event.end = moment(event.end).toISOString();
+
+                            // Return the processed event
+                            return event;
+                        });
+
+                        // Pass the processed events to FullCalendar
+                        callback(events);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching events:', error);
+                    }
+                });
+            },
+            eventRender: function(event, element) {
+                element.attr('title', event.title);  // Tooltip customization
+            },
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month'
+            },
+            editable: true,
+            droppable: true,
+            timezone: 'local',  // Ensure the timezone matches the event data
+            // Add eventDataTransform to check the structure
+            eventDataTransform: function(eventData) {
+                if (!eventData.end) {
+                    eventData.end = eventData.start; // Ensure 'end' is defined
+                }
+                return eventData;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
