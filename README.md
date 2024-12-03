@@ -104,8 +104,18 @@ Open http://127.0.0.1:8000 in your browser. You should see some Django page.
 
 ----------------------------------------------------------
 
-The project contains a login and a calendar. Create an account and look up upcoming events on the calendar.
-Admins can add and remove calendar events. You can look at the details of an event when clicked on.
+Developer Login Functionality
+
+The first thing anyone going to this site will see is the login page.
+The user will have a choice between registering, viewing the calendar, or logging in to edit the calendar. This is all done under the "authz" app in the root folder.
+
+In the authz app, you will see the functional logic of logging in inside the 'views' file. There will be all the rendering of the login page, register page, and test pages to test the required login functionality. The views page incorporates many Django apis such as password validation and the built-in credential manager. If you wish to make a custom credential manager, you will have to create on yourself in models and forms pages and remove the library imports staring with django.contrib.auth.
+
+All the html files will be located in templates and they load static css files from the static folder. This is the common approach to any app created in Django including the events app that manages events.
+
+Redirecting urls upon button clicks can be done in the html, but if it is responding to a request, you will find the redirections done in the views page. The relative urls must be included in either the app's url file or the root url file. You can do both, which is exhibited in the authz app. 
+
+The simple @login_required tag makes prohibits rendering a view if there is no user logged in recognized by Django's credential manager. Therefore, one must be logged in to view the editing page of the calendar. If not logged in, a user can still go into the calendar page without editing permissions.
 
 
 
