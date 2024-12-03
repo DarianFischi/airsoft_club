@@ -7,7 +7,9 @@ from django.urls import is_valid_path
 from urllib.parse import urlparse
 from django.contrib.auth.models import User
 from django.contrib import messages
-
+from django.contrib.auth import password_validation
+from django.core.exceptions import ValidationError
+from django.http import JsonResponse
 
 def login_view(request):
     next_url = request.GET.get('next', '/')
@@ -39,6 +41,7 @@ def register_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
+        
 
         user = User.objects.filter(username=username)
 
@@ -49,16 +52,22 @@ def register_view(request):
         if (password != password2):
             messages.info(request, "Passwords Don't Match")
         else:
-            user = User.objects.create_user(
-                first_name = first_name,
-                last_name = last_name,
-                username = username
-            )
+            try:
+                password_validation.validate_password(password)
+            
+                user = User.objects.create_user(
+                    first_name = first_name,
+                    last_name = last_name,
+                    username = username
+                )
 
-            user.set_password(password)
-            user.save()
+                user.set_password(password)
+                user.save()
 
-            messages.info(request, "Account created Successfully!")
+                messages.info(request, "Account created Successfully!")
+            except ValidationError as e:
+                return JsonResponse({'errors': e.messages}, status=400)
+
         return redirect('/register/')
 
     return render(request, 'authz/register.html')

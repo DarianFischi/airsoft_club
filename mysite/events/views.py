@@ -5,12 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 
-# List of events
+# List of eventi
+@login_required
 def event_list(request):
     events = Event.objects.all()
     return render(request, 'events/event_list.html', {'events': events})
 
 # Event creation
+@login_required
 def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -44,6 +46,7 @@ def edit_event(request, event_id):
     return render(request, 'events/edit_event.html', {'form': form, 'event': event})
   
 # Event deletion
+@login_required
 def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     if request.method == 'POST':
