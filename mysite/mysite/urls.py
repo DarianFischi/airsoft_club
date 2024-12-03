@@ -32,6 +32,8 @@ urlpatterns = [
     # Consider a re_path here
     path('events/', include('events.urls')), 
     path('calendar/events/', views.get_events, name='get_events'),
+    path('accounts/', include('django.contrib.auth.urls')),
+
 ]
 
 if settings.DEBUG:
