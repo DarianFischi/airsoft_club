@@ -118,6 +118,7 @@ Redirecting urls upon button clicks can be done in the html, but if it is respon
 The simple @login_required tag makes prohibits rendering a view if there is no user logged in recognized by Django's credential manager. Therefore, one must be logged in to view the editing page of the calendar. If not logged in, a user can still go into the calendar page without editing permissions.
 
 
+----------------------------------------------------------
 
 This portion of the README provides instructions and an overview of the Airsoft Calendar web page (The Calendar Portion). The page uses FullCalendar (a JavaScript library) to display and interact with calendar events, including a modal popup to show event details.
 
