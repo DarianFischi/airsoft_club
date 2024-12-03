@@ -119,6 +119,80 @@ The simple @login_required tag makes prohibits rendering a view if there is no u
 
 
 
+This portion of the README provides instructions and an overview of the Airsoft Calendar web page (The Calendar Portion). The page uses FullCalendar (a JavaScript library) to display and interact with calendar events, including a modal popup to show event details.
+
+This HTML page implements an interactive calendar for managing and viewing Airsoft events. Key features include:
+
+Dynamic event loading from a Django backend.
+Event details displayed in a modal popup when clicked.
+Navigation options for switching between dates and views.
+Customizable styles and event tooltips.
+
+Key Technologies: 
+
+HTML: Base structure of the page.
+CSS: Custom and FullCalendar styles.
+JavaScript/jQuery: Handles calendar rendering, modal interactions, and event loading.
+FullCalendar: A JavaScript library for calendar functionality.
+Moment.js: For date and time formatting.
+Django: Backend framework providing event data via a JSON API.
+
+Prerequisites:
+-A Django project with an endpoint (/calendar/events/) that returns event data in JSON format.
+-Internet connection for external library dependencies (e.g., FullCalendar, jQuery).
+
+Event Data Format:
+The /calendar/events/ endpoint should return data in the following format:
+
+Title: (Name of the event)
+Start: (Time the event starts)
+End: (This is coded to expect 6 hour games)
+Description: (Details about the event) 
+
+How to run:
+Add to Django Template: Place this HTML file in your Django project’s templates/ directory and reference it in your view.
+return render(request, 'airsoft_calendar.html')
+
+Include the Static Files: Ensure the calendar.css file is in the static directory and is referenced correctly in the <head> section:
+<link rel="stylesheet" href="{% static 'calendar.css' %}">
+
+Start Django Server: Run the Django server:
+
+python manage.py runserver
+
+
+Key Features
+1. Event Display
+Events are dynamically fetched from the /calendar/events/ endpoint.
+Each event displays a title on the calendar grid.
+2. Modal Popups
+Clicking an event opens a modal showing detailed event information (e.g., title, description, start/end times).
+The modal includes a close button and dismisses when clicking outside it.
+3. Tooltip Customization
+Hovering over events shows a tooltip with the event title.
+4. Calendar Header
+Navigation buttons (prev, next, today) and a centered title display the current month.
+5. Editable Events
+Events are draggable and editable.
+Customization
+Styles: Modify calendar.css or add custom styles in the <style> block.
+Event Rendering: Customize how events are displayed using the eventRender function.
+Modal: Adjust the modal structure and content within the <div id="eventModal"> block.
+
+
+Customization Options to know: 
+Styles: Modify calendar.css or add custom styles in the <style> block.
+Event Rendering: Customize how events are displayed using the eventRender function.
+Modal: Adjust the modal structure and content within the <div id="eventModal"> block.
+
+Dependencies:
+FullCalendar v3.2.0: Calendar library.
+jQuery v3.6.0: Required for DOM manipulation.
+Moment.js v2.29.1: Date and time manipulation.
+
+
+
+
   
 
 
