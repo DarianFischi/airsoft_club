@@ -119,6 +119,18 @@ The simple @login_required tag makes prohibits rendering a view if there is no u
 
 
 ----------------------------------------------------------
+Event functionality
+
+The event editor has the ability to add, edit, and delete events. At the top of the page you can create an event which will then be added to a list on the main event page.
+
+Events are stored with a model that has a title, description, data, start time, and location for the event.
+
+Once an event is created with the correct format(title, description, date (MM/DD/YYYY), time (HH:MM:SS) and location), it can be seen below along with the ability to edit any
+of the data or delete the event completely. Events created will be stored in a database and if deleted, will be removed.
+
+From this page, the calendar can be accessed and any events that have been created will be visible.
+
+----------------------------------------------------------
 
 This portion of the README provides instructions and an overview of the Airsoft Calendar web page (The Calendar Portion). The page uses FullCalendar (a JavaScript library) to display and interact with calendar events, including a modal popup to show event details.
 
