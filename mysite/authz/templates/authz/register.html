@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,11 @@
     <title>Registration Form</title>
 </head>
 <body>
+    <video playsinline autoplay muted loop poster id="bgvid">
+        <source src="{% static 'media/airsoft_login_sound.mp4'%}" type="video/mp4">Your browser doesn't support this epic video
+    </video>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
     <div class="container mt-5">
         <!-- Registration form -->
         <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
