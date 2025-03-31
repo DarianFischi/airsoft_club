@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Registration Form</title>
+
+<!-- Additional Style Modifications -->
+<style>
+    .container {
+        opacity: 0.80;
+    }
+</style>
 </head>
 <body>
     <video playsinline autoplay muted loop poster id="bgvid">
@@ -19,8 +26,9 @@
             {% csrf_token %}  <!-- CSRF token for security -->
 
             <!-- Registration form heading -->
+            
             <h1 style="text-align: center;"><span style="color: blue;">Airsoft Club</span></h1>
-            <h3>Register</h3>
+            <h4><div class="text-muted">Register</div></h4>
             <hr>
 
             <!-- Display error/success messages -->
@@ -32,25 +40,31 @@
             </div>
             {% endif %}
 
-            <!-- First Name input field -->
-            <div class="form-group">
-                <label for="exampleInputEmail1">First name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Enter First name" name="first_name" required>
+        <!-- First Name and Last Name input fields on the same line -->
+        <div class="row">
+            <div class="col">
+                <!-- First Name input field -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1">First Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter First Name" name="first_name" required>
+                </div>
             </div>
-
-            <!-- Last Name input field -->
-            <div class="form-group">
-                <label for="exampleInputEmail1">Last name</label>
-                <input type="text" name="last_name" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter Last name" required>
+            <div class="col">
+                <!-- Last Name input field -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter Last Name" required>
+                </div>
             </div>
+        </div>
 
             <!-- Username input field -->
             <div class="form-group">
                 <label for="exampleInputEmail1">Username</label>
                 <input type="text" class="form-control" name="username" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter username" required>
+                    aria-describedby="emailHelp" placeholder="Enter Username" required>
             </div>
 
             <!-- Password input field -->
@@ -65,9 +79,10 @@
 	        <label for="exampleInputPassword1">Verify Password</label>
 		<input type="password" class="form-control" name="password2" id="exampleInputPassword2" placeholder="Verify Password" required>
 	    </div>
+        <hr>
 
             <!-- Link to login page for users who already have an account -->
-            <p>Already have an account <a href="/login/">Login</a> </p>
+            <p style="text-align: center;">Already have an account <a href="/login/">Login</a> </p>
 
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary">Submit</button>

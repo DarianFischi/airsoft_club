@@ -53,7 +53,9 @@
 <body>
 
 <h1 style="text-align: center">Airsoft Calendar</h1>
-<button onclick="window.history.back();">Back Home</button>
+<a href="{% url 'secure_view' %}?next={{ request.path }}">
+    <button>Back to Home</button>
+</a>
 <a href="{% url 'create_event' %}?next={{ request.path }}">
     <button>New Event</button>
 </a>
@@ -69,7 +71,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2 id="eventTitle"></h2>
-        <p id="eventDescription"></p>
+        <p><strong>Description:</strong> <span id="eventDescription"></span></p>
         <p><strong>Start:</strong> <span id="eventStart"></span></p>
         <p><strong>End:</strong> <span id="eventEnd"></span></p>
     </div>
