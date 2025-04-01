@@ -1,23 +1,89 @@
-<h1>Events</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event List</title>
+</head>
+<style>
+      
+      html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            background-color: #d0d2c5;
+        }
+        header {
+            background-color: #8c9171;
+            padding: 5px;
+            text-align: right;
+            font-size: 20px;
+            color: #4B5320;
+        }
+         /* Side Nav */
+         .sidenav {
+            height: 100vh;
+            width: 160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+            
+        }
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+        }
+        .sidenav a:hover {
+            color: #abc3b3;
+        }
 
-<!-- Link to create a new event -->
-<a href="{% url 'create_event' %}">Create Event</a>
+        .main {
+            position:fixed;
+            top:150px;
+            margin-left: 200px; 
+            font-size: 20px; 
+            padding: 0px 10px;
+        }
 
-<!-- Link to view the calendar -->
-<a href="{% url 'calendar' %}">View Calendar</a>
+</style>
+<body>
+    <header>
+        <h1><strong>Events</strong></h1>
+    </header>
 
+    <div class="sidenav">
+        <!-- Link to create a new event -->
+        <a href="{% url 'create_event' %}">Create Event</a>
+
+        <!-- Link to view the calendar -->
+        <a href="{% url 'calendar' %}">View Calendar</a>
+    </div>    
+
+    <div class="main">
+        <ul>
+            {% for event in events %}
+                <li>
+                    <strong>{{ event.title }}</strong><br>
+                    Date: {{ event.date|date:"F j, Y" }}<br>
+                    Time: {{ event.time|time:"h:i A" }}<br>
+                    Location: {{ event.location|default:"N/A" }}<br> 
+                    <a href="{% url 'edit_event' event.id %}">Edit</a> 
+                    <a href="{% url 'delete_event' event.id %}">Delete</a>
+                </li>
+            {% empty %}
+                <li>No events available.</li>
+            {% endfor %}
+        </ul>
+    </div> 
 <!-- Display events -->
-<ul>
-    {% for event in events %}
-        <li>
-            <strong>{{ event.title }}</strong><br>
-            Date: {{ event.date|date:"F j, Y" }}<br>
-            Time: {{ event.time|time:"h:i A" }}<br>
-            Location: {{ event.location|default:"N/A" }}<br> 
-			<a href="{% url 'edit_event' event.id %}">Edit</a> 
-            <a href="{% url 'delete_event' event.id %}">Delete</a>
-        </li>
-    {% empty %}
-        <li>No events available.</li>
-    {% endfor %}
-</ul>
+
+</body>
+</html>

@@ -22,14 +22,13 @@
 
     <div class="container mt-5">
         <!-- Registration form -->
-        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        <form class="col-9 mx-auto card p-3 shadow-lg bg-dark text-white" method="post" enctype="multipart/form-data">
             {% csrf_token %}  <!-- CSRF token for security -->
 
             <!-- Registration form heading -->
-            
-            <h1 style="text-align: center;"><span style="color: blue;">Airsoft Club</span></h1>
-            <h4><div class="text-muted">Register</div></h4>
-            <hr>
+            <h1 style="text-align: center;"><span style="color: #96c9a3;">Airsoft Club</span></h1>
+            <h4><span style="color: #96c9a3; opacity:0.75;">Register</span></h4>
+            <hr style="border-color:white;">
 
             <!-- Display error/success messages -->
             {% if messages %}
@@ -79,13 +78,14 @@
 	        <label for="exampleInputPassword1">Verify Password</label>
 		<input type="password" class="form-control" name="password2" id="exampleInputPassword2" placeholder="Verify Password" required>
 	    </div>
-        <hr>
+        <hr style="border-color:white;">
 
             <!-- Link to login page for users who already have an account -->
-            <p style="text-align: center;">Already have an account <a href="/login/">Login</a> </p>
+            <p style="text-align: center;">Already have an account? <a href="/login/">
+                <span style="color: #96c9a3;">Login</span></a></p>
 
             <!-- Submit button -->
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
 </body>
