@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Contributors</title>
+
+    <!-- Additional Style Modifications -->
+   <style>
+        body {
+            color: rgb(227, 235, 222);
+            background-color: #74815d;
+            opacity:0.80;
+        }
+
+        /* Main Content */
+        .content {
+            background-color: black;
+            opacity: 0.75;
+            color:white;
+            height: 600px;
+            width: 600px;
+            box-shadow: 12px 12px 2px 1px #303515;
+            border: thick double #4b5320;
+        }
+
+        /* The list of site contributors */
+        .people {
+            font-size: 20px;
+            color: #c4c7b6;
+        }
+        .btn {
+            font-size: 16px;
+            width: 50%;
+        }
+
+        /* Side Navigation */
+        .sidenav {
+            height: 100vh;
+            width: 160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+
+        .sidenav a:hover {
+          color: #abc3b3;
+        }
+
+   </style>
+</head>
+<body>
+
+     <!-- Sidebar -->
+    <div class="sidenav">
+
+        <a href="{% url 'secure_view' %}">Back to Home</a>
+        <hr style="border-color:#abc3b3;">
+        <a href="{% url 'calendar' %}">Event Calandar</a>
+        <!-- Formatting -->
+        <hr style="border-color: #abc3b3;">
+        <br style="width: 10px;">
+
+
+
+        <!-- Logout Button -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-success" style="margin-left:10px;" type="submit">Logout</button>
+        </form>
+    </div>
+
+    <!-- Page Content -->
+	<div class="content">
+            <h2><span style="color: #96c9a3;">~ Site Contributors ~</span></h2>
+            <hr style="border-color:white;">
+            <p><span style="color: #96c9a3;">
+                Here are the developers and others that helped make this site possible.
+            </span></p>
+            <!-- People List -->
+            <div class="people">
+                <ul style="list-style-type:none;">
+                    <li>Darian Fischi</li>
+                    <li>Gleb Berkez</li>
+                    <li>Zach Donnely</li>
+                    <li>Katelin Barbosa</li>
+                    <li>Aaron Kalford</li>
+                    <li>Jared Sandidge</li>
+                </ul>
+            </div>
+            <hr style="border-color:white;">
+            <!--Last Update -->
+            <p style="text-align: right;">{ Site Last Updated: April 2025 }</p>
+    </div>
+
+</body>
+</html>

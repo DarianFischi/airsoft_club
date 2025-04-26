@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Registration Form</title>
+
+<!-- Additional Style Modifications -->
+<style>
+    body {
+        background-color: black;
+    }
+
+    /* Main Content */
+    .container {
+        height: 700px;
+        width: 600px;
+        opacity: 0.80;
+    }
+
+    /* Background Video */
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+    }
+</style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay loop muted plays-inline id="myVideo">
+            <source src="{% static '/media/airsoft_login.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <div class="container mt-5">
+        <!-- Registration form -->
+        <form class="col-9 mx-auto card p-3 shadow-lg bg-dark text-white" method="post" enctype="multipart/form-data">
+            {% csrf_token %}  <!-- CSRF token for security -->
+
+            <!-- Registration form heading -->
+            <h1 style="text-align: center;"><span style="color: #96c9a3;">Airsoft Club</span></h1>
+            <h4><span style="color: #96c9a3; opacity:0.75;">Register</span></h4>
+            <hr style="border-color:white;">
+
+            <!-- Display error/success messages -->
+            {% if messages %}
+            <div class="alert alert-primary" role="alert">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        <!-- First Name and Last Name input fields on the same line -->
+        <div class="row">
+            <div class="col">
+                <!-- First Name input field -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1">First Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter First Name" name="first_name" required>
+                </div>
+            </div>
+            <div class="col">
+                <!-- Last Name input field -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter Last Name" required>
+                </div>
+            </div>
+        </div>
+
+            <!-- Username input field -->
+            <div class="form-group">
+                <label for="exampleInputEmail1">Username</label>
+                <input type="text" class="form-control" name="username" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter Username" required>
+            </div>
+
+            <!-- Password input field -->
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" name="password" id="exampleInputPassword1"
+                    placeholder="Password" required>
+            </div>
+
+	    <!-- Second Password -->
+	    <div class="form-group2">
+	        <label for="exampleInputPassword1">Verify Password</label>
+		<input type="password" class="form-control" name="password2" id="exampleInputPassword2" placeholder="Verify Password" required>
+	    </div>
+        <hr style="border-color:white;">
+
+            <!-- Link to login page for users who already have an account -->
+            <p style="text-align: center;">Already have an account? <a href="/login/">
+                <span style="color: #96c9a3;">Login</span></a></p>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
