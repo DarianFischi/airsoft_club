@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Upcoming Events</title>
+</head>
+<style>
+
+        html, body {
+            margin: 0;
+            padding: 10;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            background-color: #d0d2c5;
+        }
+        header {
+            background-color: #8c9171;
+            padding: 5px;
+            text-align: right;
+            font-size: 30px;
+            color: #4B5320;
+        }
+         /* Side Nav */
+         .sidenav {
+            height: 100vh;
+            width: 160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+
+        }
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+        .sidenav a:hover {
+            color: #abc3b3;
+        }
+        .sidenav .btn {
+            left: 50%;
+        }
+
+        /* Main Content */
+        .main {
+            position:relative;
+            height: 100vh;
+            top:0px;
+            margin-left: 250px;
+            font-size: 20px;
+            padding: 0px 10px;
+        }
+
+         /* event-box, bottom-box, date-box are containers within an event display */
+        .event-box {
+            height: 400px;
+            width: 300px;
+            position: relative;
+            border-color: #e7e8e1;
+            margin: 30px;
+            background-color: #8C9171;
+            border-color: #d0d2c5;
+            box-shadow: 12px 12px 2px 1px #303515;
+            border: thick double black;
+        }
+        .bottom-box{
+          position: relative;
+          background: green;
+          width: 100%;
+          height: 50%;
+          top: 50%;
+          text-align: center;
+          font-size: 15px;
+          background-color: #6f7f4d;
+          color: white;
+        }
+        .date-box {
+          position: absolute;
+          background: lightgreen;
+          width: 50%;
+          left: 25%;
+          top: 100px;
+          height: 125px;
+          text-align: center;
+          font-size: 25px;
+          background-color: #303515;
+          color: #e7e8e1;
+          border-style: solid;
+          border-color: #e7e8e1;
+        }
+
+         /* Description Drop Down */
+        details {
+          border: 1px solid #aaa;
+          border-radius: 4px;
+          padding: 0.5em 0.5em 0;
+          width: 400px;
+          font-size: 12px;
+        }
+        summary {
+          font-weight: bold;
+          margin: -0.5em -0.5em 0;
+          padding: 0.5em;
+        }
+        details[open] {
+          padding: 0.5em;
+        }
+        details[open] summary {
+          border-bottom: 1px solid #aaa;
+          margin-bottom: 0.5em;
+        }
+
+        /* Back to top button */
+        #topBtn {
+          display: none;
+          position: fixed;
+          bottom: 20px;
+          right: 30px;
+          z-index: 99;
+          font-size: 18px;
+          border: none;
+          outline: none;
+          background-color: #8C9171;
+          color: white;
+          cursor: pointer;
+          padding: 15px;
+          border-radius: 4px;
+        }
+        #topBtn:hover {
+          background-color: #303515;
+        }
+
+</style>
+<body>
+    <header>
+        <h1><strong>Upcoming Events</strong></h1>
+    </header>
+
+    <div class="sidenav">
+        <!-- Link to Secure View-->
+        <a href="{% url 'secure_view' %}">Back to Home</a>
+        <hr style="color: #abc3b3;">
+
+         <!-- Link to create a new event -->
+        <a href="{% url 'create_event' %}">Create Event</a>
+        <hr style="color: #abc3b3;">
+
+        <!-- Link to view past events list-->
+        <a href="{% url 'past_list' %}">Past Events</a>
+        <hr style="color: #abc3b3;">
+
+        <!-- Link to view all events list-->
+        <a href="{% url 'event_list' %}">All Events</a>
+        <hr style="color: #abc3b3;">
+
+        <!-- Link to view the calendar -->
+        <a href="{% url 'calendar' %}">View Calendar</a>
+
+        <!-- Link to all persons who helped develop site -->
+        <hr style="color: #abc3b3;">
+        <a href="{% url 'contributors_view' %}">Site Info</a>
+        <hr style="color: #abc3b3;">
+        <br style="width: 10px;">
+
+
+        <!-- Link to Logout -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-success" style="margin-left:10px;" type="submit">
+                Logout</button>
+        </form>
+    </div>
+
+<div class="main">
+   <div class = "overflow-autop-3 mb-3 mb-md-0 me-md-3" style="max-height: 400px;">
+        <button onclick="topFunction()" id="topBtn" title="Go to top">Back to Top</button>
+        {% now "Y-m-d" as today %}
+        <ul>
+            <!-- Display events -->
+            {% for event in events %}
+                {% if event.date|date:"Y-m-d" > today %}
+                <li style="list-style-type: none;">
+                <div class="event-box" style="position=center;">
+
+                    <!-- Display events -->
+                    <div class="bottom-box">
+                        <!-- Event Details -->
+                        <br><br>
+                        <strong>{{ event.title }}</strong>
+                        <hr style="border-color:white; width:50%; margin: auto;">
+                        @ {{ event.time|time:"h:i A" }}<br>
+                        {{ event.location|default:"N/A" }}<br>
+                        <hr style="border-color:white; width:50%; margin: auto;">
+                        <br>
+                        <div class="btn-group">
+
+                            <a href="{% url 'edit_event' event.id %}">
+                                <button class="btn btn-outline-light" style="margin-right:5px;">
+                                    Edit</button>
+                            </a>
+                            <a href="{% url 'delete_event' event.id %}">
+                                <button class="btn btn-outline-light">Delete</button>
+                            </a>
+
+                        </div>
+
+                    </div>
+                    <div class="date-box">
+                        {{ event.date|date:'l, F d, Y'}}
+                    </div>
+
+
+                </div>
+                <details>
+                    <summary>Description</summary>
+                        {{ event.description }}
+                </details>
+                <hr>
+                </li>
+
+                {% endif %}
+            {% empty %}
+                <li>No events available.</li>
+            {% endfor %}
+
+        </ul>
+    </div>
+    </div>
+
+    <script>
+    // Script for Back to Top Button, appears when user scrolls 20px down
+        let mybutton = document.getElementById("topBtn");
+
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+          } else {
+            mybutton.style.display = "none";
+          }
+        }
+
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+    </script>
+
+</body>
+</html>

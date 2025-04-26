@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar</title>
+    <link rel="stylesheet" href="{% static 'calendar.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
+
+    <!-- jQuery and FullCalendar JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+
+
+    <!-- Modal CSS -->
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            background-color: #d0d2c5;
+        }
+        header {
+            background-color: #8c9171;
+            padding: 30px;
+            text-align: center;
+            font-size: 35px;
+            color: #4B5320;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left:100px;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+            margin-top: 110px;
+        }
+        .modal-content {
+            background-color: #d9dbd1;
+            color: #4B5320;
+            margin: 5% auto;
+            padding: 75px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #4B5320;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* FullCalendar Object */
+        #calendar {
+            max-width: 1100px;
+            max-height = 500px;
+            margin: 40px auto;
+            position:relative;
+            margin-left: 200px;
+            font-size: 20px;
+            padding: 0px 10px;
+        }
+        /* FullCalendar Buttons */
+        .fc .fc-prev-button, .fc .fc-next-button,
+        .fc .fc-today-button
+         {
+            background-color: #4B5320;
+            border-color: #DADD98;
+            color:#A9BA9D;
+            font-size: 16px;
+        }
+        .fc .fc-month-button,
+        .fc .fc-basicWeek-button,.fc .fc-basicDay-button,
+        .fc .fc-listMonth-button{
+            background-color: #4B5320;
+            border-color: #DADD98;
+            color:#A9BA9D;
+        }
+
+        /* Side Nav */
+        .sidenav {
+            height: 100vh;
+            width: 160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+
+        }
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+        .sidenav a:hover {
+            color: #abc3b3;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1><strong>Airsoft Calendar</strong></h1>
+</header>
+<div style="padding-bottom: 10px"></div>
+<!-- FullCalendar div -->
+<div id="calendar"></div>
+
+<!-- Modal for event details -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="eventTitle"></h2>
+        <p><strong>Description:</strong> <span id="eventDescription"></span></p>
+        <p><strong>Start:</strong> <span id="eventStart"></span></p>
+        <p><strong>End:</strong> <span id="eventEnd"></span></p>
+    </div>
+
+</div>
+
+<script src='fullcalendar/dist/index.global.js'></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Modal setup
+        var modal = document.getElementById("eventModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Close the modal when the user clicks on <span> (x)
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close the modal if the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        $('#calendar').fullCalendar({
+            defaultView: 'month', //the calendar page opens in month view
+            themesystem: 'bootstrap5',
+
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay,listMonth' /* ability to view by month,week, and day */
+            },
+            buttonText: {
+                month: 'Month',
+                basicWeek: 'Week',
+                basicDay: 'Day',
+                listMonth: 'List',
+                today: 'Today'
+           },
+            events: function(start, end, timezone, callback) {
+                $.ajax({
+                    url: '/calendar/events/',  // Your Django URL for events data
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log('Fetched Events:', data);
+
+                        var events = data.map(function(event) {
+                            if (!event.end) {
+                                event.end = event.start;
+                            }
+
+                            event.start = moment(event.start).toISOString();
+                            event.end = moment(event.end).toISOString();
+
+                            return event;
+                        });
+
+                        callback(events);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching events:', error);
+                    }
+                });
+            },
+            eventClick: function(event) {
+                // Populate the modal with event data
+                $('#eventTitle').text(event.title);
+                $('#eventDescription').text(event.description) || "No description available.";
+                $('#eventStart').text(moment(event.start).format('MMMM Do YYYY, h:mm:ss a'));
+                $('#eventEnd').text(moment(event.end).format('MMMM Do YYYY, h:mm:ss a'));
+
+                // Display the modal
+                modal.style.display = "block";
+            },
+            eventRender: function(event, element) {
+                element.attr('title', event.title);  // Tooltip customization
+            },
+
+
+            editable: true,
+            droppable: true,
+            timezone: 'local',
+            eventDataTransform: function(eventData) {
+                if (!eventData.end) {
+                    eventData.end = eventData.start;
+                }
+                return eventData;
+            },
+           eventColor: '#4d784e'
+        });
+    });
+</script>
+    <!-- Sidebar -->
+    <div class="sidenav">
+
+        <a href="{% url 'secure_view' %}">Back to Home</a>
+        <hr style="color: #abc3b3;">
+        <a href="{% url 'create_event' %}">New Event</a>
+        <hr style="color: #abc3b3;">
+        <a href="{% url 'upcoming_list' %}">Event List</a>
+        <hr style="color: #abc3b3;">
+        <a href="{% url 'contributors_view' %}">Site Info</a>
+        <hr style="color: #abc3b3;">
+        <br style="width: 10px;">
+
+        <!-- Logout Button -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-success" style="margin-left:10px;" type="submit">
+                logout</button>
+        </form>
+    </div>
+
+</body>
+</html>
+

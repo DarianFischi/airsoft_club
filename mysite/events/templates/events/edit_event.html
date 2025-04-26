@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Edit Event: {{ event.title }}</title>
+</head>
+<style>
+        html, body {
+            margin: 25px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            background-color: #d0d2c5;
+            color: #96c9a3;
+        }
+        /* Container that holds the event modification form */
+        .container {
+             height: 625px;
+             width: 500px;
+             opacity: 0.80;
+             align-items: center;
+             justify-content: center;
+        }
+
+</style>
+<body>
+    <div class="container p-3 my-3 bg-dark">
+        <br style="line-height: 3;">
+        <h2>Edit Event: {{ event.title }}</h2>
+        <hr style="border-color:white;">
+
+        <!-- Event editing form -->
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Render the form fields as paragraphs -->
+
+            <button type="submit" class="btn btn-outline-success">
+                Save Changes</button>
+        </form>
+        <hr style="border-color:white;">
+
+        <!-- Cancel link to go back to the event list -->
+        <a href="{% url 'event_list' %}">
+            <button class="btn btn-outline-secondary">
+                Cancel</button>
+        </a> <!-- Redirect to the event list page -->
+    </div>
+</body>
+</html>

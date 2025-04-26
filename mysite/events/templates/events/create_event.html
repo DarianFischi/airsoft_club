@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Create Event</title>
+</head>
+<style>
+        html, body {
+            margin: 25px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            background-color: #d0d2c5;
+            color: #96c9a3;
+        }
+        /* Container that holds the event creation form */
+        .container {
+             height: 700px;
+             width: 500px;
+             opacity: 0.80;
+             align-items: center;
+             justify-content: center;
+        }
+</style>
+<body>
+    <div class="container p-3 my-3 bg-dark">
+        <br style="line-height: 3;">
+        <h1>Create Event</h1>
+        <hr style="border-color:white;">
+
+        <!-- Form for event creation-->
+        <form method="POST">
+            {% csrf_token %}
+
+        	<label for"id_title>Title:</label>
+        	{{ form.title }}<br>
+        	{% if form.title.errors %}
+        		<div class="error">{{ form.title.errors }}</div>
+            {% endif %}
+
+        	<br>
+
+        	<label for="id_description">Description:</label>
+            {{ form.description }}<br>
+        	{% if form.description.errors %}
+                <div class="error">{{ form.description.errors }}</div>
+            {% endif %}
+        	<br>
+
+        	<small>Please enter the date in MM/DD/YYYY format.</small><br>
+            <label for="id_date">Date:</label>
+            {{ form.date }}<br>
+        	{% if form.date.errors %}
+                <div class="error">{{ form.date.errors }}</div>
+            {% endif %}
+        	<br>
+
+        	<small>Please enter the time in HH:MM format (24-hour format).</small><br>
+            <label for="id_time">Time:</label>
+            {{ form.time }}<br>
+        	{% if form.time.errors %}
+                <div class="error">{{ form.time.errors }}</div>
+            {% endif %}
+        	<br>
+
+            <label for="id_location">Location:</label>
+            {{ form.location }}<br>
+        	{% if form.location.errors %}
+                <div class="error">{{ form.location.errors }}</div>
+            {% endif %}
+        	<br>
+            <hr style="border-color:white;">
+
+            <!-- Submission and Go Back Buttons-->
+        	<button class="btn btn-outline-success" type="submit">Create</button>
+        	<button class="btn btn-outline-secondary" onclick="window.history.back();">
+        	    Go Back</button>
+        </form>
+        </div>
+</body>
+</html>
